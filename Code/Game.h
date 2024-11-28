@@ -1,6 +1,6 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-
+#include"Tetromino.h"
 class Game
 {
 private:
@@ -8,7 +8,10 @@ private:
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
 
+	Tetromino* tetromino;
+
 	void initWindow();
+	void initVariables();
 public:
 	Game();
 	~Game();

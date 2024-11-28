@@ -10,15 +10,22 @@ void Game::initWindow()
 	this->window->setFramerateLimit(60);
 }
 
+void Game::initVariables()
+{
+	this->tetromino = new Tetromino();
+}
+
 //Constructor / Destructor
 Game::Game()
 {
 	this->initWindow();
+	this->initVariables();
 }
 
 Game::~Game()
 {
 	delete this->window;
+	delete this->tetromino;
 }
 
 
@@ -55,6 +62,7 @@ void Game::render()
 	this->window->clear();
 
 	//Draw some stuff
+	this->window->draw(*tetromino);
 
 	this->window->display();
 }

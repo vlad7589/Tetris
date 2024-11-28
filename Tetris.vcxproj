@@ -151,9 +151,14 @@
   <ItemGroup>
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Game.cpp" />
+    <ClCompile Include="Code\Tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Game.h" />
+    <ClInclude Include="Code\Tetromino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resourses\tiles.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
