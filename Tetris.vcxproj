@@ -150,6 +150,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Code\main.cpp" />
+    <ClCompile Include="Code\Game.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Code\Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
