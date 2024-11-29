@@ -91,7 +91,7 @@ void Game::fillMatrix(std::array<sf::Sprite, 4> curTetr)
 void Game::checkLines()
 {
 	bool deleteLine = true;
-	for (int i = ROWS - 1; i >= 0; i--) {
+	for (int i = 0; i < ROWS; i++) {
 		for (int j = 0; j < COLUMNS; j++) {
 			if (matrix[j][i] == 0) {
 				deleteLine = false;

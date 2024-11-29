@@ -128,7 +128,9 @@ bool Tetromino::checkBounds(float dx)
 	for (int i = 0; i < 4; i++)
 	{
 		if (this->currentBlock[i].getGlobalBounds().left + dx * CELL_SIZE < START_X ||
-			this->currentBlock[i].getGlobalBounds().left + dx * CELL_SIZE >(COLUMNS + 1) * CELL_SIZE) return true;
+			this->currentBlock[i].getGlobalBounds().left + dx * CELL_SIZE >(COLUMNS + 1) * CELL_SIZE ||
+			(matrix[static_cast<int>((currentBlock[i].getPosition().x - START_X) / CELL_SIZE) + (int)dx]
+				[static_cast<int>((currentBlock[i].getPosition().y - START_Y) / CELL_SIZE)] == 1)) return true;
 	}
 	return false;
 }
