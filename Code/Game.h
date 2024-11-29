@@ -13,6 +13,12 @@ private:
 	Tetromino* tetromino;
 	Board board;
 
+	sf::Clock clock;
+	float time;
+	float timer;
+
+	float dx;
+
 	void initWindow();
 	void initVariables();
 public:

@@ -1,5 +1,5 @@
 #include "Tetromino.h"
-
+#include<iostream>
 //Here used a table 2x4 with number from 0 to 7
 //When you need some figures you pick only number that covers your figure
 // 0 1
@@ -46,16 +46,6 @@ void Tetromino::initSprites()
 	}
 }
 
-void Tetromino::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	states.transform *= getTransform();
-
-	for (int i = 0; i < 4; i++)
-	{
-		target.draw(currentBlock[i], states);
-	}
-}
-
 //Constructor
 Tetromino::Tetromino()
 {
@@ -67,6 +57,7 @@ Tetromino::Tetromino()
 //Functions
 void Tetromino::createFigure()
 {
+
 	for (int i = 0; i < 4; i++)
 	{
 		//For example let take a I(1,3,5,7), cause of every number consecutive odd x every type will be 1
@@ -77,6 +68,58 @@ void Tetromino::createFigure()
 		currentBlock[i].setPosition(
 			this->figure[i].x * CELL_SIZE + this->currentBlock[i].getGlobalBounds().left, 
 			this->figure[i].y * CELL_SIZE + this->currentBlock[i].getGlobalBounds().top);
+	}
+}
+
+void Tetromino::updateX(float dx)
+{
+	if (!checkBounds(dx)) {
+		for (int i = 0; i < 4; i++)
+		{
+			this->currentBlock[i].setPosition(
+				this->currentBlock[i].getPosition().x + dx * CELL_SIZE,
+				this->currentBlock[i].getPosition().y);
+		}
+	}
+
+}
+
+void Tetromino::fall()
+{
+	if (canFall()) {
+		for (int i = 0; i < 4; i++)
+		{
+			this->currentBlock[i].setPosition(
+				this->currentBlock[i].getPosition().x,
+				this->currentBlock[i].getPosition().y + 1.f * CELL_SIZE);
+		}
+	}
+}
+
+bool Tetromino::checkBounds(float dx)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->currentBlock[i].getGlobalBounds().left + dx * CELL_SIZE < START_X ||
+			this->currentBlock[i].getGlobalBounds().left + dx * CELL_SIZE >(COLUMNS + 1) * CELL_SIZE) return true;
+	}
+	return false;
+}
+
+bool Tetromino::canFall()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->currentBlock[i].getGlobalBounds().top + CELL_SIZE > (ROWS + 1) * CELL_SIZE) return false;
+	}
+	return true;
+}
+
+void Tetromino::renderFigure(sf::RenderTarget* target)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		target->draw(currentBlock[i]);
 	}
 }
 

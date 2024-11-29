@@ -1,4 +1,5 @@
 #include "Game.h"
+#include<iostream>
 //Private functions
 void Game::initWindow()
 {
@@ -12,6 +13,8 @@ void Game::initWindow()
 void Game::initVariables()
 {
 	this->tetromino = new Tetromino();
+	this->dx = 0.f;
+	this->timer = 0.f;
 }
 
 //Constructor / Destructor
@@ -33,6 +36,9 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
+		this->time = clock.getElapsedTime().asSeconds();
+		clock.restart();
+		timer += time;
 		//Check user input
 		this->pollEvent();
 
@@ -49,11 +55,24 @@ void Game::pollEvent()
 	{
 		if (e.type == sf::Event::Closed)
 			this->window->close();
+		else if (e.type == sf::Event::KeyPressed) {
+			if (e.key.code == sf::Keyboard::Left) dx = -1.f;
+			else if (e.key.code == sf::Keyboard::Right) dx = 1.f;
+		}
 	}
 }
 
 void Game::update()
 {
+	if (timer > DELAY) {
+		this->tetromino->fall();
+		this->timer = 0.f;
+	}
+	if (dx != 0) {
+		this->tetromino->updateX(this->dx);
+		this->dx = 0;
+	}
+	
 }
 
 void Game::render()
@@ -61,7 +80,7 @@ void Game::render()
 	this->window->clear();
 
 	//Draw some stuff
-	this->window->draw(*tetromino);
+	this->tetromino->renderFigure(this->window);
 	this->window->draw(board);
 
 	this->window->display();

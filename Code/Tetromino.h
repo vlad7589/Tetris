@@ -1,12 +1,13 @@
 #pragma once
 
 #include<SFML/Graphics.hpp>
+
 #include<random>
 #include<iostream>
 
 #include "Const.h"
 
-class Tetromino : public sf::Drawable, public sf::Transformable
+class Tetromino
 {
 private:
 	int typeOfFigure;
@@ -17,6 +18,9 @@ private:
 
 	int color;
 
+	sf::Clock clock;
+	float timer;
+
 	static const int FIGURES[7][4];
 
 	//Coordinate of 4 cubes that make figure
@@ -25,11 +29,15 @@ private:
 	void initVariables();
 	void initSprites();
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 public:
 	Tetromino();
 
 	void createFigure();
+	void updateX(float dx);
+	void fall();
+	bool checkBounds(float dx);
+	bool canFall();
+	void renderFigure(sf::RenderTarget* target);
 
 	const int getRundomNum(int start, int end) const;
 };
