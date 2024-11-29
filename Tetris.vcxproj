@@ -149,11 +149,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Code\Board.cpp" />
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Game.cpp" />
     <ClCompile Include="Code\Tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\Board.h" />
+    <ClInclude Include="Code\Const.h" />
     <ClInclude Include="Code\Game.h" />
     <ClInclude Include="Code\Tetromino.h" />
   </ItemGroup>

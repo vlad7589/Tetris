@@ -4,10 +4,11 @@
 #include<random>
 #include<iostream>
 
+#include "Const.h"
+
 class Tetromino : public sf::Drawable, public sf::Transformable
 {
 private:
-	const float CELL_SIZE = 1.5f * 18; // * 18 'cause one cube from tiles.png have 18.f pizel size
 	int typeOfFigure;
 
 	//Cube sprite

@@ -1,10 +1,9 @@
 #include "Game.h"
-
 //Private functions
 void Game::initWindow()
 {
-	this->videoMode.height = 800.f;
-	this->videoMode.width = 1000.f;
+	this->videoMode.height = WINDOW_HEIGHT;
+	this->videoMode.width = WINDOW_WIDTH;
 
 	this->window = new sf::RenderWindow(videoMode, "Tetris", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(60);
@@ -63,6 +62,7 @@ void Game::render()
 
 	//Draw some stuff
 	this->window->draw(*tetromino);
+	this->window->draw(board);
 
 	this->window->display();
 }

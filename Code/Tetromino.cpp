@@ -27,9 +27,10 @@ void Tetromino::initVariables()
 	{
 		this->currentBlock[i].setTextureRect(sf::IntRect(color * 18, 0, 18, 18));
 		this->currentBlock[i].setScale(
-			this->CELL_SIZE / 18,
-			this->CELL_SIZE / 18
+			CELL_SIZE / 18,
+			CELL_SIZE / 18
 		);
+		this->currentBlock[i].setPosition(START_X, START_Y);
 	}
 }
 
@@ -69,11 +70,13 @@ void Tetromino::createFigure()
 	for (int i = 0; i < 4; i++)
 	{
 		//For example let take a I(1,3,5,7), cause of every number consecutive odd x every type will be 1
-		//But for every next y we will add 1 and cubes will "go down" (watch Figures.h file for numbers)
+		//But for every next y we will add 1 and cubes will "go down"
 		this->figure[i].x = FIGURES[this->typeOfFigure][i] % 2;
 		this->figure[i].y = FIGURES[this->typeOfFigure][i] / 2;
 
-		currentBlock[i].setPosition(this->figure[i].x * this->CELL_SIZE, this->figure[i].y * this->CELL_SIZE);
+		currentBlock[i].setPosition(
+			this->figure[i].x * CELL_SIZE + this->currentBlock[i].getGlobalBounds().left, 
+			this->figure[i].y * CELL_SIZE + this->currentBlock[i].getGlobalBounds().top);
 	}
 }
 
