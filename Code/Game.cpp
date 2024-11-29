@@ -100,6 +100,8 @@ void Game::checkLines()
 		}
 		if (deleteLine) {
 			//Change matrix
+			//Add score
+			this->stats.score += 10;
 			//Delete line
 			for (int j = 0; j < COLUMNS; j++) {
 				matrix[j][i] = 0;
@@ -150,6 +152,7 @@ void Game::update()
 		this->checkLines();
 		this->spawnNewTetromino();
 	}
+	this->stats.update();
 }
 
 void Game::renderElementOfMatrix(sf::RenderTarget* target)
@@ -163,6 +166,7 @@ void Game::render()
 	this->window->clear();
 
 	//Draw some stuff
+	this->stats.render(this->window);
 	this->tetromino->renderFigure(this->window);
 	this->renderElementOfMatrix(this->window);
 	this->window->draw(board);

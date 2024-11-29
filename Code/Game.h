@@ -3,6 +3,7 @@
 #include"Tetromino.h"
 #include"Board.h"
 #include"Const.h"
+#include"Statistics.h"
 
 #include<array>
 #include<map>
@@ -17,6 +18,8 @@ private:
 
 	Tetromino* tetromino;
 	Board board;
+
+	Statistics stats;
 
 	sf::Clock clock;
 	float time;

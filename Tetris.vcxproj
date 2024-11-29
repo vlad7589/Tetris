@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -153,6 +153,7 @@
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Game.cpp" />
     <ClCompile Include="Code\Tetromino.cpp" />
+    <ClCompile Include="Code\Statistics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Board.h" />
@@ -160,9 +161,13 @@
     <ClInclude Include="Code\Game.h" />
     <ClInclude Include="Code\Matrix.h" />
     <ClInclude Include="Code\Tetromino.h" />
+    <ClInclude Include="Code\Statistics.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resourses\tiles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resourses\Napoli.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
