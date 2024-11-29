@@ -36,6 +36,7 @@ public:
 	void createFigure();
 	void updateX(float dx);
 	void fall();
+	void rotate();
 	bool checkBounds(float dx);
 	bool canFall();
 	void renderFigure(sf::RenderTarget* target);

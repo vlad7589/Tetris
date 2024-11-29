@@ -26,6 +26,7 @@ private:
 	
 	std::map<std::string, sf::Sprite> spritesMap;
 	float dx;
+	bool rotate;
 
 	void initWindow();
 	void initVariables();

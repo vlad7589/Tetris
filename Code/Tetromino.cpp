@@ -97,6 +97,32 @@ void Tetromino::fall()
 		}
 }
 
+void Tetromino::rotate()
+{
+	//O cant rotate
+	if (this->typeOfFigure != 1) {
+		Points p = this->figure[1]; // point of ratation
+		sf::Sprite oldPos[4]; // Old position
+		for (int i = 0; i < 4; i++)
+		{
+			oldPos[i] = this->currentBlock[i];
+			int x = this->figure[i].y - p.y;
+			int y = this->figure[i].x - p.x;
+			this->figure[i].y = p.y + y;
+			this->figure[i].x = p.x - x;
+			this->currentBlock[i].setPosition(
+				this->currentBlock[1].getPosition().x - x * CELL_SIZE,
+				this->currentBlock[1].getPosition().y + y * CELL_SIZE
+			);
+		}
+		if (checkBounds(0.f))
+			for (int i = 0; i < 4; i++)
+			{
+				this->currentBlock[i] = oldPos[i];
+			}
+	}
+}
+
 bool Tetromino::checkBounds(float dx)
 {
 	for (int i = 0; i < 4; i++)

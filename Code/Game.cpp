@@ -16,6 +16,7 @@ void Game::initVariables()
 {
 	this->tetromino = new Tetromino();
 	this->dx = 0.f;
+	this->rotate = false;
 	this->timer = 0.f;
 }
 
@@ -60,6 +61,7 @@ void Game::pollEvent()
 		else if (e.type == sf::Event::KeyPressed) {
 			if (e.key.code == sf::Keyboard::Left) dx = -1.f;
 			else if (e.key.code == sf::Keyboard::Right) dx = 1.f;
+			else if (e.key.code == sf::Keyboard::Up) rotate = true;
 		}
 	}
 }
@@ -126,6 +128,10 @@ void Game::update()
 		if (timer > DELAY) {
 			this->tetromino->fall();
 			this->timer = 0.f;
+		}
+		else if (rotate) {
+			this->tetromino->rotate();
+			this->rotate = false;
 		}
 		if (dx != 0) {
 			this->tetromino->updateX(this->dx);
