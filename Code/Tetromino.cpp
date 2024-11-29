@@ -1,5 +1,8 @@
 #include "Tetromino.h"
 #include<iostream>
+#include "Matrix.h"
+
+int matrix[COLUMNS][ROWS];
 //Here used a table 2x4 with number from 0 to 7
 //When you need some figures you pick only number that covers your figure
 // 0 1
@@ -86,14 +89,12 @@ void Tetromino::updateX(float dx)
 
 void Tetromino::fall()
 {
-	if (canFall()) {
 		for (int i = 0; i < 4; i++)
 		{
 			this->currentBlock[i].setPosition(
 				this->currentBlock[i].getPosition().x,
 				this->currentBlock[i].getPosition().y + 1.f * CELL_SIZE);
 		}
-	}
 }
 
 bool Tetromino::checkBounds(float dx)
@@ -110,7 +111,9 @@ bool Tetromino::canFall()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (this->currentBlock[i].getGlobalBounds().top + CELL_SIZE > (ROWS + 1) * CELL_SIZE) return false;
+		if (this->currentBlock[i].getGlobalBounds().top + CELL_SIZE > (ROWS + 1) * CELL_SIZE ||
+			(matrix[static_cast<int>((currentBlock[i].getPosition().x - START_X) / CELL_SIZE)]
+			[static_cast<int>((currentBlock[i].getPosition().y - START_Y) / CELL_SIZE) + 1] == 1 )) return false;
 	}
 	return true;
 }
@@ -121,6 +124,17 @@ void Tetromino::renderFigure(sf::RenderTarget* target)
 	{
 		target->draw(currentBlock[i]);
 	}
+}
+
+std::array<sf::Sprite, 4> Tetromino::getCurrTetr()
+{
+	std::array<sf::Sprite, 4> currTetr;
+	for (int i = 0; i < 4; i++)
+	{
+		currTetr[i] = this->currentBlock[i];
+	}
+
+	return currTetr;
 }
 
 const int Tetromino::getRundomNum(int start, int end) const

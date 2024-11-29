@@ -158,6 +158,7 @@
     <ClInclude Include="Code\Board.h" />
     <ClInclude Include="Code\Const.h" />
     <ClInclude Include="Code\Game.h" />
+    <ClInclude Include="Code\Matrix.h" />
     <ClInclude Include="Code\Tetromino.h" />
   </ItemGroup>
   <ItemGroup>

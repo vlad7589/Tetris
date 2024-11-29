@@ -1,5 +1,7 @@
 #include "Game.h"
 #include<iostream>
+#include"Matrix.h"
+
 //Private functions
 void Game::initWindow()
 {
@@ -62,17 +64,49 @@ void Game::pollEvent()
 	}
 }
 
+void Game::spawnNewTetromino()
+{
+	this->tetromino = new Tetromino();
+}
+
+void Game::fillMatrix(std::array<sf::Sprite, 4> curTetr)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		matrix[static_cast<int>((curTetr[i].getPosition().x - START_X) / CELL_SIZE )]
+			[static_cast<int>((curTetr[i].getPosition().y - START_Y) / CELL_SIZE )] = 1;
+		this->spritesArr.push_back(curTetr[i]);
+	}
+}
+
+void Game::checkLines()
+{
+}
+
 void Game::update()
 {
-	if (timer > DELAY) {
-		this->tetromino->fall();
-		this->timer = 0.f;
+	if (this->tetromino->canFall()) {
+		if (timer > DELAY) {
+			this->tetromino->fall();
+			this->timer = 0.f;
+		}
+		if (dx != 0) {
+			this->tetromino->updateX(this->dx);
+			this->dx = 0;
+		}
 	}
-	if (dx != 0) {
-		this->tetromino->updateX(this->dx);
-		this->dx = 0;
+	else {
+		this->fillMatrix(this->tetromino->getCurrTetr());
+		this->spawnNewTetromino();
 	}
-	
+}
+
+void Game::renderElementOfMatrix(sf::RenderTarget* target)
+{
+	for (int i = 0; i < this->spritesArr.size(); i++)
+	{
+		target->draw(this->spritesArr[i]);
+	}
 }
 
 void Game::render()
@@ -81,6 +115,7 @@ void Game::render()
 
 	//Draw some stuff
 	this->tetromino->renderFigure(this->window);
+	this->renderElementOfMatrix(this->window);
 	this->window->draw(board);
 
 	this->window->display();

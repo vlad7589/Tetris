@@ -3,9 +3,10 @@
 #include<SFML/Graphics.hpp>
 
 #include<random>
-#include<iostream>
+#include<array>
 
 #include "Const.h"
+
 
 class Tetromino
 {
@@ -39,6 +40,7 @@ public:
 	bool canFall();
 	void renderFigure(sf::RenderTarget* target);
 
+	std::array<sf::Sprite, 4> getCurrTetr();
 	const int getRundomNum(int start, int end) const;
 };
 
