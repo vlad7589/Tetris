@@ -42,6 +42,6 @@ public:
 	void renderFigure(sf::RenderTarget* target);
 
 	std::array<sf::Sprite, 4> getCurrTetr();
-	const int getRundomNum(int start, int end) const;
+	int getRundomNum(int start, int end) const;
 };
 

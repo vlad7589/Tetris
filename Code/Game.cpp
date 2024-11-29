@@ -63,6 +63,7 @@ void Game::pollEvent()
 			if (e.key.code == sf::Keyboard::Left) dx = -1.f;
 			else if (e.key.code == sf::Keyboard::Right) dx = 1.f;
 			else if (e.key.code == sf::Keyboard::Up) rotate = true;
+			else if (e.key.code == sf::Keyboard::Down) delay = 0.05f;
 		}
 	}
 }
@@ -107,7 +108,7 @@ void Game::checkLines()
 				this->spritesMap.erase(ss.str());
 			}
 			//Drop all cubes
-			for (int k = i; k >= 0; k--)
+			for (int k = i; k > 0; k--)
 				for (int j = 0; j < COLUMNS; j++) {
 					matrix[j][k] = matrix[j][k - 1];
 					if (matrix[j][k - 1] == 1) {

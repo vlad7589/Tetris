@@ -12,19 +12,19 @@ int matrix[COLUMNS][ROWS];
 const int Tetromino::FIGURES[7][4] = {
 	1,3,5,7,	// I
 	2,3,4,5,	// O
-	2,4,5,7,	// S
-	3,5,4,6,	// Z
-	0,3,4,5,	// L
-	1,3,4,5,	// J
-	1,2,3,5,	// T
+	2,4,5,7,	// Z
+	3,5,4,6,	// S
+	2,3,5,7,	// L
+	3,5,7,6,	// J
+	3,5,4,7		// T
 };
 
 //Private function
 void Tetromino::initVariables()
 {
 
-	this->color = this->getRundomNum(0,8);
-	this->typeOfFigure = *this->FIGURES[this->getRundomNum(0,7)];
+	this->color = this->getRundomNum(0,7);
+	this->typeOfFigure = this->getRundomNum(0, 7);
 	
 	for (int i = 0; i < 4; i++)
 	{
@@ -163,8 +163,8 @@ std::array<sf::Sprite, 4> Tetromino::getCurrTetr()
 	return currTetr;
 }
 
-const int Tetromino::getRundomNum(int start, int end) const
+int Tetromino::getRundomNum(int start, int end) const
 {
-	return start + (int)(end * (rand()/(RAND_MAX + 1.0)));
+	return start + rand() % end;
 }
 
