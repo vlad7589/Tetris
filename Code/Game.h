@@ -25,6 +25,10 @@ private:
 	float time;
 	float timer;
 
+	sf::Font font;
+	sf::Text gameOverText;
+	sf::Text finalScoreText;
+
 	//Matric of cubes
 	
 	std::map<std::string, sf::Sprite> spritesMap;
@@ -41,6 +45,7 @@ public:
 
 	void run();
 	void pollEvent();
+	bool endGame();
 
 	void spawnNewTetromino();
 	void fillMatrix(std::array<sf::Sprite,4> curTetr);

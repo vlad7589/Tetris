@@ -19,6 +19,23 @@ void Game::initVariables()
 	this->rotate = false;
 	this->timer = 0.f;
 	this->delay = START_DELAY;
+
+	if (!this->font.loadFromFile("Resourses/Napoli.ttf"))
+		std::cerr << "Cannot load a font";
+
+	this->gameOverText.setFont(this->font);
+	this->gameOverText.setCharacterSize(100);
+	this->gameOverText.setFillColor(sf::Color::Red);
+	this->gameOverText.setString("GAME OVER");
+	this->gameOverText.setPosition(250,250);
+
+	this->finalScoreText.setFont(this->font);
+	this->finalScoreText.setCharacterSize(50);
+	this->finalScoreText.setFillColor(sf::Color::White);
+	std::stringstream ss;
+	ss << "Final score: " << this->stats.score;
+	this->finalScoreText.setString(ss.str());
+	this->finalScoreText.setPosition(350, 400);
 }
 
 //Constructor / Destructor
@@ -40,15 +57,23 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
-		this->time = clock.getElapsedTime().asSeconds();
-		clock.restart();
-		timer += time;
 		//Check user input
 		this->pollEvent();
+		if (!endGame()) {
+			this->time = clock.getElapsedTime().asSeconds();
+			clock.restart();
+			timer += time;
 
-		this->update();
+			this->update();
 
-		this->render();
+			this->render();
+		}
+		else {
+			this->window->clear();
+			this->window->draw(this->gameOverText);
+			this->window->draw(this->finalScoreText);
+			this->window->display();
+		}
 	}
 }
 
@@ -66,6 +91,16 @@ void Game::pollEvent()
 			else if (e.key.code == sf::Keyboard::Down) delay = 0.05f;
 		}
 	}
+}
+
+bool Game::endGame()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->tetromino->getCurrTetr()[i].getGlobalBounds().top <= START_Y &&
+			!this->tetromino->canFall()) return true;
+	}
+	return false;
 }
 
 void Game::spawnNewTetromino()

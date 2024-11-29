@@ -33,7 +33,7 @@ void Tetromino::initVariables()
 			CELL_SIZE / 18,
 			CELL_SIZE / 18
 		);
-		this->currentBlock[i].setPosition(START_X, START_Y);
+		this->currentBlock[i].setPosition(START_X + COLUMNS*CELL_SIZE/2 - CELL_SIZE, START_Y);
 	}
 }
 
