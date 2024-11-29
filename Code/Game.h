@@ -28,6 +28,8 @@ private:
 	float dx;
 	bool rotate;
 
+	float delay;
+
 	void initWindow();
 	void initVariables();
 public:

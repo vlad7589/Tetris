@@ -18,6 +18,7 @@ void Game::initVariables()
 	this->dx = 0.f;
 	this->rotate = false;
 	this->timer = 0.f;
+	this->delay = START_DELAY;
 }
 
 //Constructor / Destructor
@@ -93,7 +94,7 @@ void Game::checkLines()
 		for (int j = 0; j < COLUMNS; j++) {
 			if (matrix[j][i] == 0) {
 				deleteLine = false;
-				break;
+				continue;
 			}
 		}
 		if (deleteLine) {
@@ -106,15 +107,19 @@ void Game::checkLines()
 				this->spritesMap.erase(ss.str());
 			}
 			//Drop all cubes
-			for (int k = i; i > 0; i--)
+			for (int k = i; k >= 0; k--)
 				for (int j = 0; j < COLUMNS; j++) {
 					matrix[j][k] = matrix[j][k - 1];
 					if (matrix[j][k - 1] == 1) {
-						std::stringstream ss;
-						ss << j << " " << i;
-						this->spritesMap[ss.str()].setPosition(
-							spritesMap[ss.str()].getPosition().x,
-							spritesMap[ss.str()].getPosition().y + 1.f * CELL_SIZE);
+						std::stringstream oldKey;
+						oldKey << j << " " << k - 1;						
+						std::stringstream newKey;
+						newKey << j << " " << k;
+						this->spritesMap[newKey.str()] = this->spritesMap[oldKey.str()];
+						this->spritesMap.erase(oldKey.str());
+						this->spritesMap[newKey.str()].setPosition(
+							spritesMap[newKey.str()].getPosition().x,
+							spritesMap[newKey.str()].getPosition().y + 1.f * CELL_SIZE);
 					}
 				}
 		}
@@ -125,9 +130,10 @@ void Game::checkLines()
 void Game::update()
 {
 	if (this->tetromino->canFall()) {
-		if (timer > DELAY) {
+		if (timer > this->delay) {
 			this->tetromino->fall();
 			this->timer = 0.f;
+			this->delay = START_DELAY;
 		}
 		else if (rotate) {
 			this->tetromino->rotate();
