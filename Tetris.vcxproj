@@ -169,6 +169,10 @@
   <ItemGroup>
     <Font Include="Resourses\Napoli.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resourses\endGameSound.mp3" />
+    <Media Include="Resourses\gameSound.mp3" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

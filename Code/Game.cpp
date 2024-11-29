@@ -18,7 +18,7 @@ void Game::initVariables()
 	this->dx = 0.f;
 	this->rotate = false;
 	this->timer = 0.f;
-	this->delay = START_DELAY;
+	this->delay = startDelay;
 
 	if (!this->font.loadFromFile("Resourses/Napoli.ttf"))
 		std::cerr << "Cannot load a font";
@@ -32,10 +32,18 @@ void Game::initVariables()
 	this->finalScoreText.setFont(this->font);
 	this->finalScoreText.setCharacterSize(50);
 	this->finalScoreText.setFillColor(sf::Color::White);
-	std::stringstream ss;
-	ss << "Final score: " << this->stats.score;
-	this->finalScoreText.setString(ss.str());
 	this->finalScoreText.setPosition(350, 400);
+
+	if (!this->bufferGame.loadFromFile("Resourses/gameSound.mp3"))
+		std::cout << "Cannot load Game Sound";
+
+	this->gameSound.setBuffer(this->bufferGame);
+
+	if (!this->bufferLoose.loadFromFile("Resourses/endGameSound.mp3"))
+		std::cout << "Cannot load End Game Sound";
+	this->looseGameSoud.setBuffer(this->bufferLoose);
+
+	this->playEndGameSound = true;
 }
 
 //Constructor / Destructor
@@ -43,6 +51,8 @@ Game::Game()
 {
 	this->initWindow();
 	this->initVariables();
+	this->gameSound.play();
+	this->gameSound.setLoop(true);
 }
 
 Game::~Game()
@@ -69,10 +79,8 @@ void Game::run()
 			this->render();
 		}
 		else {
-			this->window->clear();
-			this->window->draw(this->gameOverText);
-			this->window->draw(this->finalScoreText);
-			this->window->display();
+			this->gameSound.stop();
+			this->renderEndGame();
 		}
 	}
 }
@@ -171,7 +179,7 @@ void Game::update()
 		if (timer > this->delay) {
 			this->tetromino->fall();
 			this->timer = 0.f;
-			this->delay = START_DELAY;
+			this->delay = startDelay;
 		}
 		else if (rotate) {
 			this->tetromino->rotate();
@@ -186,6 +194,7 @@ void Game::update()
 		this->fillMatrix(this->tetromino->getCurrTetr());
 		this->checkLines();
 		this->spawnNewTetromino();
+		if(this->startDelay > 0.1f) this->startDelay -= 0.002f;
 	}
 	this->stats.update();
 }
@@ -194,6 +203,23 @@ void Game::renderElementOfMatrix(sf::RenderTarget* target)
 {
 	for (const auto& vl : this->spritesMap)
 		target->draw(vl.second);
+}
+
+void Game::renderEndGame()
+{
+	if (this->playEndGameSound) {
+		this->looseGameSoud.play();
+		this->playEndGameSound = false;
+	}
+
+
+	this->window->clear();
+	this->window->draw(this->gameOverText);
+	std::stringstream ss;
+	ss << "Final score: " << this->stats.score;
+	this->finalScoreText.setString(ss.str());
+	this->window->draw(this->finalScoreText);
+	this->window->display();
 }
 
 void Game::render()
