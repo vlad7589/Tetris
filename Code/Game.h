@@ -5,7 +5,9 @@
 #include"Const.h"
 
 #include<array>
-#include<vector>
+#include<map>
+#include<string>
+#include<sstream>
 class Game
 {
 private:
@@ -22,7 +24,7 @@ private:
 
 	//Matric of cubes
 	
-	std::vector<sf::Sprite> spritesArr;
+	std::map<std::string, sf::Sprite> spritesMap;
 	float dx;
 
 	void initWindow();
@@ -36,6 +38,7 @@ public:
 
 	void spawnNewTetromino();
 	void fillMatrix(std::array<sf::Sprite,4> curTetr);
+	void checkLines();
 
 	void update();
 	void renderElementOfMatrix(sf::RenderTarget* target);

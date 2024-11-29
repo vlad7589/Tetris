@@ -73,14 +73,51 @@ void Game::fillMatrix(std::array<sf::Sprite, 4> curTetr)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		matrix[static_cast<int>((curTetr[i].getPosition().x - START_X) / CELL_SIZE )]
-			[static_cast<int>((curTetr[i].getPosition().y - START_Y) / CELL_SIZE )] = 1;
-		this->spritesArr.push_back(curTetr[i]);
+		int x = static_cast<int>((curTetr[i].getPosition().x - START_X) / CELL_SIZE);
+		int y = static_cast<int>((curTetr[i].getPosition().y - START_Y) / CELL_SIZE);
+		matrix[x][y] = 1;
+
+		//Create key
+		std::stringstream ss;
+		ss << x << " " << y;
+		this->spritesMap[ss.str()] = curTetr[i];
 	}
 }
 
 void Game::checkLines()
 {
+	bool deleteLine = true;
+	for (int i = ROWS - 1; i >= 0; i--) {
+		for (int j = 0; j < COLUMNS; j++) {
+			if (matrix[j][i] == 0) {
+				deleteLine = false;
+				break;
+			}
+		}
+		if (deleteLine) {
+			//Change matrix
+			//Delete line
+			for (int j = 0; j < COLUMNS; j++) {
+				matrix[j][i] = 0;
+				std::stringstream ss;
+				ss << j << " " << i;
+				this->spritesMap.erase(ss.str());
+			}
+			//Drop all cubes
+			for (int k = i; i > 0; i--)
+				for (int j = 0; j < COLUMNS; j++) {
+					matrix[j][k] = matrix[j][k - 1];
+					if (matrix[j][k - 1] == 1) {
+						std::stringstream ss;
+						ss << j << " " << i;
+						this->spritesMap[ss.str()].setPosition(
+							spritesMap[ss.str()].getPosition().x,
+							spritesMap[ss.str()].getPosition().y + 1.f * CELL_SIZE);
+					}
+				}
+		}
+		deleteLine = true;
+	}
 }
 
 void Game::update()
@@ -97,16 +134,15 @@ void Game::update()
 	}
 	else {
 		this->fillMatrix(this->tetromino->getCurrTetr());
+		this->checkLines();
 		this->spawnNewTetromino();
 	}
 }
 
 void Game::renderElementOfMatrix(sf::RenderTarget* target)
 {
-	for (int i = 0; i < this->spritesArr.size(); i++)
-	{
-		target->draw(this->spritesArr[i]);
-	}
+	for (const auto& vl : this->spritesMap)
+		target->draw(vl.second);
 }
 
 void Game::render()
